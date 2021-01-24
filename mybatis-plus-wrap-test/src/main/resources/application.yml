@@ -1,0 +1,106 @@
+spring:
+  profiles: dev
+
+mysql:
+  master:
+    host: 106.54.225.249
+    port: 7036
+    dbname: wx-shop
+    username: root
+    password: Jun195273
+
+redis:
+  host: 106.54.225.249
+  port: 8090
+
+logback:
+  loghome: 'C:/home/logs'
+  logstash: 106.54.225.249:9067
+
+
+---
+
+spring:
+  profiles: docker
+
+mysql:
+  master:
+    host: mysql
+    port: 3306
+    dbname: ruoyi
+    username: root
+    password: Jun195273
+
+redis:
+  host: redis
+  port: 6379
+
+---
+
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  servlet:
+    # 应用的访问路径
+    context-path: '/'
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+  port: 8080
+
+# 日志配置
+logging:
+  level:
+    mybatis.plus.wrap: debug
+    org.springframework: warn
+    org.quartz: info
+
+spring:
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  profiles: 
+    active: dev
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${mysql.master.host}:${mysql.master.port}/${mysql.master.dbname}?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: ${mysql.master.username}
+    password: ${mysql.master.password}
+    # 初始连接数
+    initialSize: 5
+    # 最小连接池数量
+    minIdle: 10
+    # 最大连接池数量
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: ruoyi
+
+# MyBatis配置
+mybatis-plus:
+  # 搜索指定包别名
+  type-aliases-package: test.module.**.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapper-locations: classpath*:mybatis/**/*Mapper.xml
+  # 加载全局的配置文件
+  configuration:
+    #      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: true
+#      logPrefix: mybatis.
+#    config-location: classpath:mybatis-config.xml
