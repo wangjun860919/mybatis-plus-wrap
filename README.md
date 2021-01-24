@@ -22,3 +22,6 @@ comparator 比较器，用来比较准备保存children数据和数据库中的c
 propertyName: 属性名
 
 代码量非常小、比较易懂
+
+@Import({SqlSessionTemplateHoler.class})
+使用是必须引入SqlSessionTemplateHoler,用来获取SqlSessionTemplate
